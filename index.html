@@ -8,6 +8,22 @@
 
     <script type="text/jsx">
       var Button = React.createClass({
+        render: function() {
+          return (
+              <button onClick={this.props.localHandleClick}>+1</button>
+          )
+        }
+      });
+
+      var Result = React.createClass({
+        render: function() {
+          return (
+            <div>{this.props.localCounter}</div>
+          )
+        }
+      });
+
+      var Main = React.createClass({
         getInitialState: function() {
           return {counter: 0};
         },
@@ -16,12 +32,15 @@
         },
         render: function() {
           return (
-              <button onClick={this.handleClick}> {this.state.counter} </button>
+            <div>
+              <Button localHandleClick={this.handleClick} />
+              <Result localCounter={this.state.counter} />
+            </div>
           )
         }
       });
-
-      React.render(<Button />, document.getElementById("root"));
+      
+      React.render(<Main />, document.getElementById("root"));
     </script>
 
   </body>
