@@ -109,13 +109,25 @@ var NumbersFrame = React.createClass({
   }
 });
 
+var DoneFrame = React.createClass({
+		render: function() {
+			return (
+				<div className="well text-center">
+					<h2>{this.props.doneStatus}</h2>
+				</div>
+			);
+		}
+
+});
+
 var Game = React.createClass({
 	getInitialState: function() {
   	return { numberOfStars: this.randomNumber(),
 						 selectedNumbers: [],
 						 usedNumbers: [],
 						 redraws: 5,
-						 correct: null };
+						 correct: null,
+						 doneStatus: null};
   },
 	randomNumber: function() {
 		return Math.floor(Math.random()*9) + 1
@@ -167,8 +179,19 @@ var Game = React.createClass({
 		var selectedNumbers = this.state.selectedNumbers,
 				usedNumbers = this.state.usedNumbers,
 				numberOfStars = this.state.numberOfStars,
-				redraws = this.state.redraws
-				correct = this.state.correct;
+				redraws = this.state.redraws,
+				correct = this.state.correct,
+				doneStatus = this.state.doneStatus,
+				bottomFrame;
+				
+		if (doneStatus) {
+				bottomFrame = <DoneFrame doneStatus={doneStatus} />;
+		} else {
+				bottomFrame = <NumbersFrame selectedNumbers={selectedNumbers} 
+												usedNumbers={usedNumbers}
+												selectNumber={this.selectNumber} />
+		}
+
 		return (
 			<div id="game">
 				<h2>Play Nine</h2>
@@ -186,11 +209,10 @@ var Game = React.createClass({
 											 unselectNumber={this.unselectNumber} />
 				</div>
 
-				<NumbersFrame selectedNumbers={selectedNumbers} 
-											usedNumbers={usedNumbers}
-											selectNumber={this.selectNumber} />
+				{bottomFrame}
+
 			</div>
-	);
+		);
   }
 });
 
